@@ -1,7 +1,7 @@
 % FILE: bnbExportWeights.m
 % DESC: Export actor weights to C header for ESP32
 
-load("exp_RL/exp01_base.mat", "agent");
+load("exp_RL/exp12_curriculum_sigma030.mat", "agent");
 actor  = getActor(agent);
 params = getLearnableParameters(actor);
 

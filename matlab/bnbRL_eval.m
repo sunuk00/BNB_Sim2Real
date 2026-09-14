@@ -7,8 +7,15 @@
 % agentFile = "exp_RL/exp01_base.mat";
 % agentFile = "exp_RL/exp02_obvNorm.mat";
 % agentFile = "exp_RL/exp03_obvNorm_aWeight.mat";
-% agentFile = "exp_RL/exp04_500step.mat"
-agentFile = "exp_RL/exp05_500step_terminalPenalty"
+% agentFile = "exp_RL/exp04_500step.mat";
+% agentFile = "exp_RL/exp05_500step_terminalPenalty.mat";
+% agentFile = "exp_RL/exp06_base_ratePenalty.mat";
+% agentFile = "exp_RL/exp07_base_obsNoise.mat";
+% agentFile = "exp_RL/exp08_base_obsNoise_filtered.mat";
+% agentFile = "exp_RL/exp09_base_filtered.mat";
+% agentFile = "exp_RL/exp10_curriculum_sigam010.mat"
+% agentFile = "exp_RL/exp11_curriculum_sigma020.mat"
+agentFile = "exp_RL/exp12_curriculum_sigma030.mat"
 
 % Define environment (creates empty agent)
 bnbRL_env;      
@@ -22,11 +29,11 @@ env.ResetFcn = @(in) setVariable(in, "x0", desiredX, Workspace=mdl);
 load(agentFile, "agent");       
 
 % --- Simulation ---
-simOpts = rlSimulationOptions(MaxSteps = 500);
+simOpts = rlSimulationOptions(MaxSteps = 250);
 experience = sim(env, agent, simOpts);
 
 nSteps = length(experience.Reward.Data);
-fprintf('Total reward: %.2f | Steps: %d / 500\n', ...
+fprintf('Total reward: %.2f | Steps: %d / 250\n', ...
         sum(experience.Reward.Data), nSteps);
 
 if nSteps < 250
@@ -64,17 +71,17 @@ ylabel('alpha [deg]'); xlabel('Time [s]');
 title('Servo angle (agent action)');
 
 
-% % 실험 3개 학습 곡선 비교
-load("exp_RL/exp01_base.mat", "trainStats");         s1 = trainStats;
-load("exp_RL/exp02_obvNorm.mat", "trainStats");     s2 = trainStats;
-load("exp_RL/exp03_obvNorm_aWeight", "trainStats"); s3 = trainStats;
-
-figure; hold on;
-plot(movmean(s1.EpisodeReward, 20), 'LineWidth', 1.5);
-plot(movmean(s2.EpisodeReward, 20), 'LineWidth', 1.5);
-plot(movmean(s3.EpisodeReward, 20), 'LineWidth', 1.5);
-legend("E1: 정규화 없음", "E2: 관측 정규화", "E3: 정규화+제어벌점↑");
-xlabel("에피소드"); ylabel("이동평균 보상"); grid on;
+% % % 실험 3개 학습 곡선 비교
+% load("exp_RL/exp01_base.mat", "trainStats");         s1 = trainStats;
+% load("exp_RL/exp02_obvNorm.mat", "trainStats");     s2 = trainStats;
+% load("exp_RL/exp03_obvNorm_aWeight", "trainStats"); s3 = trainStats;
+% 
+% figure; hold on;
+% plot(movmean(s1.EpisodeReward, 20), 'LineWidth', 1.5);
+% plot(movmean(s2.EpisodeReward, 20), 'LineWidth', 1.5);
+% plot(movmean(s3.EpisodeReward, 20), 'LineWidth', 1.5);
+% legend("E1: 정규화 없음", "E2: 관측 정규화", "E3: 정규화+제어벌점↑");
+% xlabel("에피소드"); ylabel("이동평균 보상"); grid on;
 
 
 % %-----pid 비교-----

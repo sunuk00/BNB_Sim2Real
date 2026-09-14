@@ -27,9 +27,7 @@
 %     7) exp07_base_obsNoise
 %     8) exp08_base_obsNoise_filtered
 %     9) exp09_base_filtered
-%    10) exp10_curriculum_sigam010        : exp01_base에 이어서 Noise 섞어서 학습
-%    11) exp11_curriculum_sigma020        : exp10에 이어서 Noise 좀 더 키워서 학습
-%    12) exp12_curriculum_sigma030        : epx11에 이어서 Noise 를 더 키워서 학슴
+%    10) exp10_curriculum_smallNoise        : exp01_base
 % %}
 % 
 % expName = "exp09_base_filtered";
@@ -46,7 +44,7 @@
 %       (sigma_xdot = 0.010, sigma_x = 0.00022)
 
 bnbRL_env;                                  % env 정의 (agent도 새로 생성됨)
-load("exp_RL/exp11_curriculum_sigma020.mat", "agent");     % 학습된 agent로 덮어쓰기
+load("exp_RL/exp01_base.mat", "agent");     % 학습된 agent로 덮어쓰기
 
 agent.AgentOptions.ResetExperienceBufferBeforeTraining = false;
 
@@ -59,5 +57,5 @@ trainOpts = rlTrainingOptions( ...
 
 trainStats = train(agent, env, trainOpts);
 
-expName = "exp12_curriculum_sigma030";
+expName = "exp10_curriculum_smallNoise";
 save("exp_RL/" + expName + ".mat", "agent", "trainStats");
