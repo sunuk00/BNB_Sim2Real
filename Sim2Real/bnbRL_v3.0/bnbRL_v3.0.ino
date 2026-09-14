@@ -25,7 +25,7 @@ const float ADC_RIGHT  = 4095.0f;
 const float ADC_CENTER = (ADC_LEFT + ADC_RIGHT) / 2.0f;
 const float ADC_HALF   = (ADC_RIGHT - ADC_LEFT) / 2.0f;
 const float X_MAX      = 0.114f;       // range the policy was trained on
-// ---------------------------------------------------------------------
+// --------------------------------------------------------------------- 
 
 // --- 타이밍 ---
 const float TS = 0.020f;              // [s]
