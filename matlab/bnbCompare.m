@@ -1,34 +1,39 @@
 % FILE: bnbCompare.m
-bnbInit;
-load("cmp_PID.mat");
-load("cmp_RL.mat");
+% DESC: Compare real-hardware logs from two policies (exp01 vs exp07)
+% NOTE: logs must be recorded under the same calibration and start position
+d1  = readmatrix("bnb_real_exp1.txt");
+d6  = readmatrix("bnb_real_exp7.txt");
 
-xP_e = 0.1 - xP;    % 목표 기준 오차로 변환 (RL과 부호 맞춤)
-aP_e = -aP;
+N = min(size(d1,1), size(d6,1));   % 두 데이터 중 더 짧은 길이에 맞춤
+x1  = d1(1:N,2);   a1  = d1(1:N,4);
+x6  = d6(1:N,2);   a6  = d6(1:N,4);
+t   = (0:N-1) * 0.02;
 
+% --- 정량 비교 (정상상태 구간만) ---
+s = 200;                      % 4초 이후. 위치 그래프 보고 조정
+fprintf('\n           평균|da|    a std     x std     최종 x [mm]\n');
+fprintf('exp01     %8.3f  %8.3f  %9.5f  %9.2f\n', ...
+    mean(abs(diff(a1(s:N)))),  std(a1(s:N)),  std(x1(s:N)),  x1(N)*1000);
+fprintf('exp07     %8.3f  %8.3f  %9.5f  %9.2f\n', ...
+    mean(abs(diff(a6(s:N)))),  std(a6(s:N)),  std(x6(s:N)),  x6(N)*1000);
+
+% --- 그래프 ---
 figure;
+c1 = [0.0000 0.4470 0.7410];  % blue
+c2 = [0.9500 0.5500 0.1000];  % orange
+
 subplot(2,1,1);
-plot(tP, xP_e, 'LineWidth', 1.5); hold on;
-plot(tR, xR,   'LineWidth', 1.5);
+plot(t, x1,  'Color', c1, 'LineWidth', 1.2); hold on;
+plot(t, x6,  'Color', c2, 'LineWidth', 1.2);
 yline(0, 'k:', 'HandleVisibility','off');
-grid on; legend("PID (600, 0.01, 100)", "RL (SAC)");
-ylabel('x [m]'); title('Ball position (x_0 = 0.01 m)');
+grid on;
+legend("exp01 baseline", "exp07 rate penalty", 'Location','best');
+ylabel('x [m]'); title('Ball position');
 
 subplot(2,1,2);
-plot(tP, aP_e, 'LineWidth', 1.5); hold on;
-% plot(tR, aR,   'LineWidth', 1.5);
-n = min(length(tR), length(aR));
-plot(tR(1:n), aR(1:n), 'LineWidth', 1.5);
-
-yline( 30, 'r--', 'HandleVisibility','off');
-yline(-30, 'r--', 'HandleVisibility','off');
-grid on; legend("PID", "RL (SAC)");
+plot(t, a1,  'Color', c1, 'LineWidth', 1.2); hold on;
+plot(t, a6,  'Color', c2, 'LineWidth', 1.2);
+grid on;
+legend("exp01", "exp07", 'Location','best');
 ylabel('\alpha [deg]'); xlabel('Time [s]');
 title('Servo angle');
-
-% --- 정량 비교 ---
-fprintf('\n            정상오차   최대각도   제어노력\n');
-fprintf('PID         %6.1f mm  %6.1f deg  %8.1f\n', ...
-        abs(xP_e(end))*1000, max(abs(aP_e)), trapz(tP, aP_e.^2));
-fprintf('RL          %6.1f mm  %6.1f deg  %8.1f\n', ...
-        abs(xR(end))*1000, max(abs(aR)), trapz(tR(1:n), aR(1:n).^2));

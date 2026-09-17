@@ -16,10 +16,10 @@ const int SERVO_PIN = 18;
 // Calibrated  : from measured end stops, ADC_LEFT = 260.5, ADC_RIGHT = 3340.5
 //               -> center 1800.5, half 1540
 // Swap the two blocks below to compare.
-const float ADC_LEFT   = 0.0f;
-const float ADC_RIGHT  = 4095.0f;
-// const float ADC_LEFT   = 260.5f;     // calibrated
-// const float ADC_RIGHT  = 3340.5f;    // calibrated
+//const float ADC_LEFT   = 0.0f;
+//const float ADC_RIGHT  = 4095.0f;
+const float ADC_LEFT   = 260.5f;     // calibrated
+const float ADC_RIGHT  = 3340.5f;    // calibrated
 
 const float ADC_CENTER = (ADC_LEFT + ADC_RIGHT) / 2.0f;
 const float ADC_HALF   = (ADC_RIGHT - ADC_LEFT) / 2.0f;

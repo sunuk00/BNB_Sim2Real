@@ -4,7 +4,7 @@
 % DATE: 09/05/26 14:40
 
 % --- Evaluate agents ---
-% agentFile = "exp_RL/exp01_base.mat";
+agentFile = "exp_RL/exp01_base.mat";
 % agentFile = "exp_RL/exp02_obvNorm.mat";
 % agentFile = "exp_RL/exp03_obvNorm_aWeight.mat";
 % agentFile = "exp_RL/exp04_500step.mat";
@@ -15,7 +15,7 @@
 % agentFile = "exp_RL/exp09_base_filtered.mat";
 % agentFile = "exp_RL/exp10_curriculum_sigam010.mat"
 % agentFile = "exp_RL/exp11_curriculum_sigma020.mat"
-agentFile = "exp_RL/exp12_curriculum_sigma030.mat"
+% agentFile = "exp_RL/exp12_curriculum_sigma030.mat"
 
 % Define environment (creates empty agent)
 bnbRL_env;      
