@@ -1,7 +1,9 @@
 # BNB — Ball and Beam Reinforcement Learning (Sim2Real)
 
 <p align="center">
-  <img src="bnb.png" alt="BNB img">
+  <a href="https://www.youtube.com/watch?v=wQ2SrcOREII">
+    <img src="bnb.png" alt="BNB img">
+  </a>
 </p>
 
 A Ball-and-Beam (BNB) balancing system trained with reinforcement learning in MATLAB/Simulink and deployed to real hardware (ESP32 + servo + SoftPot sensor).
