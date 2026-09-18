@@ -4,7 +4,7 @@ A Ball-and-Beam (BNB) balancing system trained with reinforcement learning in MA
 
 The agent observes the ball's position and velocity on the beam and outputs a servo angle to keep the ball balanced (or move it to a target position).
 
-For full documentation, hardware setup, and a step-by-step tutorial, please visit the [Ball and Beam Reinforcement Learning (BNB) — DASL Wiki](https://www.daslhub.org/unlv/wiki/doku.php?id=taeuksun_bnb).
+For full documentation, hardware setup, and a step-by-step tutorial, please visit the [DASL Wiki](https://www.daslhub.org/unlv/wiki/doku.php?id=taeuksun_bnb).
 
 ![BNB img](bnb.png)
 
