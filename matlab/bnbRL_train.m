@@ -40,7 +40,7 @@ trainStats = train(agent, env, trainOpts);
 
 % 4. Save the results
 % Make sure to change the file name before running!
-expName = "exp12_curriculum_sigma030"; 
+expName = "____input your experiments______"; 
 save("exp_RL/" + expName + ".mat", "agent", "trainStats");
 
 %{
