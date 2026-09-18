@@ -5,7 +5,7 @@
     <img src="bnb.png" alt="BNB img">
   </a>
   <br>
-  <em>Click the image to watch the video on YouTube</em>
+  <em>👆 Click the image to watch the video on YouTube</em>
 </p>
 
 A Ball-and-Beam (BNB) balancing system trained with reinforcement learning in MATLAB/Simulink and deployed to real hardware (ESP32 + servo + SoftPot sensor).
