@@ -6,8 +6,7 @@ The agent observes the ball's position and velocity on the beam and outputs a se
 
 For full documentation, hardware setup, and a step-by-step tutorial, please visit the [Ball and Beam Reinforcement Learning (BNB) — DASL Wiki](https://www.daslhub.org/unlv/wiki/doku.php?id=taeuksun_bnb).
 
-<!-- 추천: 여기에 실제 작동하는 GIF 이미지 추가 -->
-[BNB img](bnb.png)
+![BNB img](bnb.png)
 
 ## How it works
 
