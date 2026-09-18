@@ -2,8 +2,10 @@
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=wQ2SrcOREII">
-    <img src="bnb.png" alt="BNB img">
+    <img src="https://img.youtube.com/vi/wQ2SrcOREII/0.jpg" alt="BNB Video" width="600">
   </a>
+  <br>
+  <em>Click the image to watch the video on YouTube</em>
 </p>
 
 A Ball-and-Beam (BNB) balancing system trained with reinforcement learning in MATLAB/Simulink and deployed to real hardware (ESP32 + servo + SoftPot sensor).
