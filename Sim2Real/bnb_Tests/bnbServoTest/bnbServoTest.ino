@@ -10,7 +10,7 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   myServo.attach(SERVO_PIN, 1000, 2000);
-  myServo.write(90);              // 중립
+  myServo.write(90);              // neutral
   Serial.println("Servo test. Type angle (-90 to 90) then ENTER");
 }
 
@@ -18,7 +18,7 @@ void loop() {
   if (Serial.available() > 0) {
     int theta = Serial.parseInt();
     
-    // 뒤따라오는 개행 문자('\r', '\n') 및 공백을 모두 비움
+    // Consume any trailing newline characters ('\r', '\n') and spaces
     while (Serial.available() > 0) {
       char c = Serial.peek();
       if (c == '\n' || c == '\r' || c == ' ') {

@@ -2,7 +2,7 @@
 % AUTH: Taeuk Sun
 % DESC: Animating BNB
 % DATE: 09/07/26
-% NOTE: 규약 — alpha > 0 이면 빔의 +x 끝이 내려가고 공이 +x로 가속
+% NOTE: If alpha > 0, the +x end of the beam goes down and the ball accelerates in +x direction
 
 function bnbRL_Animation(t, x, alpha, visGain)
 

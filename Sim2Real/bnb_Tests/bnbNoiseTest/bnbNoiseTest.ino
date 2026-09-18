@@ -24,7 +24,7 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   myServo.attach(SERVO_PIN, 1000, 2000);
-  myServo.write(90);          // 수평 고정, 이후 건드리지 않음
+  myServo.write(90);          // Hold level, untouched afterward
   delay(2000);
 
   xPrev = readPosition();
@@ -35,7 +35,7 @@ void setup() {
 void loop() {
   int raw = analogRead(POT_PIN);
   float x = (raw - ADC_CENTER) / ADC_HALF * X_MAX;
-  float xdotRaw = (x - xPrev) / TS;      // 필터 없는 원값
+  float xdotRaw = (x - xPrev) / TS;      // Raw, unfiltered value
 
   Serial.printf("%lu,%d,%.5f,%.5f\n", millis(), raw, x, xdotRaw);
 

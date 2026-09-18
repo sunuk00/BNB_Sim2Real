@@ -5,7 +5,7 @@
 
 void setup() {
   Serial.begin(115200);
-  delay(1500); // 부팅 후 USB 안정화 대기
+  delay(1500); // Wait for USB to stabilize after boot
   Serial.println("\n=== SYSTEM BOOT OK ===");
 }
 
@@ -20,9 +20,9 @@ void loop() {
     Serial.printf("%7.3f  %7.3f  -> %9.4f\n", testX[i], testXdot[i], a);
   }
 
-  // --- 추론 시간(Timing Benchmark) 측정 ---
+  // --- Measure inference time (timing benchmark) ---
   const int NUM_RUNS = 100;
-  volatile float dummy = 0.0f; // 컴파일러의 루프 최적화(생략) 방지
+  volatile float dummy = 0.0f; // Prevent the compiler from optimizing away the loop
 
   unsigned long t0 = micros();
   for (int k = 0; k < NUM_RUNS; k++) {
@@ -34,5 +34,5 @@ void loop() {
   Serial.printf("\nInference time (avg of %d runs): %.2f us (%.4f ms)\n", NUM_RUNS, avgTimeUs, avgTimeUs / 1000.0f);
   Serial.println("----------------------------------------------");
 
-  delay(2000); // 2초마다 갱신
+  delay(2000); // Refresh every 2 seconds
 }

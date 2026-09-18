@@ -1,9 +1,13 @@
 % FILE: bnbRL_eval.m
 % AUTH: Taeuk Sun
-% DESC: Evaluate trained agent and visualize results
+% DESC: Evaluate a trained RL agent on the Ball-and-Beam environment
+%       and visualize the resulting trajectories.
 % DATE: 09/05/26 14:40
 
-% --- Evaluate agents ---
+clear; clc;
+
+%% --- Configuration ---
+% Select the trained agent to evaluate (uncomment one).
 % agentFile = "exp_RL/exp01_base.mat";
 % agentFile = "exp_RL/exp02_obvNorm.mat";
 % agentFile = "exp_RL/exp03_obvNorm_aWeight.mat";
@@ -13,92 +17,86 @@
 % agentFile = "exp_RL/exp07_base_obsNoise.mat";
 % agentFile = "exp_RL/exp08_base_obsNoise_filtered.mat";
 % agentFile = "exp_RL/exp09_base_filtered.mat";
-% agentFile = "exp_RL/exp10_curriculum_sigam010.mat"
-% agentFile = "exp_RL/exp11_curriculum_sigma020.mat"
-agentFile = "exp_RL/exp12_curriculum_sigma030.mat"
+% agentFile = "exp_RL/exp10_curriculum_sigam010.mat";
+% agentFile = "exp_RL/exp11_curriculum_sigma020.mat";
+agentFile = "exp_RL/exp12_curriculum_sigma030.mat";
 
-% Define environment (creates empty agent)
-bnbRL_env;      
+mdl        = "bnbRL_Simulink";
+desiredX0  = 0.1;      % Ball's initial position [m]
+beamLimit  = 0.114;    % Beam half-length [m]
+maxSteps   = 250;      % Simulation horizon [steps]
 
-% Set ball's start position
-mdl = "bnbRL_Simulink";
-desiredX = 0.1;
-env.ResetFcn = @(in) setVariable(in, "x0", desiredX, Workspace=mdl);
+% Optional post-processing blocks (disabled by default).
+enableTrainingCurveComparison = false;
+enableSaveForPidComparison    = false;
 
-% Overwrite with trained agent
-load(agentFile, "agent");       
+%% --- Environment and agent setup ---
+bnbRL_env;  % Defines the empty RL environment/agent structures
 
-% --- Simulation ---
-simOpts = rlSimulationOptions(MaxSteps = 250);
+% Randomize the ball's initial position on reset
+env.ResetFcn = @(in) setVariable(in, "x0", desiredX0, Workspace = mdl);
+
+% Load the trained agent, overwriting the empty placeholder
+load(agentFile, "agent");
+
+%% --- Run simulation ---
+simOpts    = rlSimulationOptions(MaxSteps = maxSteps);
 experience = sim(env, agent, simOpts);
 
 nSteps = length(experience.Reward.Data);
-fprintf('Total reward: %.2f | Steps: %d / 250\n', ...
-        sum(experience.Reward.Data), nSteps);
+fprintf('Total reward: %.2f | Steps: %d / %d\n', ...
+        sum(experience.Reward.Data), nSteps, maxSteps);
 
-if nSteps < 250
-    fprintf('  → Early termination (ball left the beam)\n');
+if nSteps < maxSteps
+    fprintf('  -> Early termination (ball left the beam)\n');
 end
 
-% --- Extract data ---
-t     = experience.Observation.BNBStates.Time;
+%% --- Extract simulation data ---
+t = experience.Observation.BNBStates.Time;
 
-x    = squeeze(experience.Observation.BNBStates.Data(1,1,:));
-xdot = squeeze(experience.Observation.BNBStates.Data(2,1,:));
+x    = squeeze(experience.Observation.BNBStates.Data(1, 1, :));
+xdot = squeeze(experience.Observation.BNBStates.Data(2, 1, :));
 
-% < When observations were normalized, re-scale them here >
-% x    = squeeze(experience.Observation.BNBStates.Data(1,1,:)) * x_max;
-% xdot = squeeze(experience.Observation.BNBStates.Data(2,1,:)) * 0.5;
+% If observations were normalized during training, rescale them here:
+% x    = squeeze(experience.Observation.BNBStates.Data(1, 1, :)) * x_max;
+% xdot = squeeze(experience.Observation.BNBStates.Data(2, 1, :)) * 0.5;
 
 alpha = squeeze(experience.Action.servoAngle.Data);
-disp(x)
 
-% --- Plots ---
+%% --- Plot results ---
 figure;
-subplot(3,1,1);
+tiledlayout(3, 1);
+
+nexttile;
 plot(t, x, 'LineWidth', 1.2); hold on;
-yline( 0.114, 'r--'); yline(-0.114, 'r--');
+yline(beamLimit, 'r--'); yline(-beamLimit, 'r--');
 yline(0, 'k:'); grid on;
 ylabel('x [m]'); title('Ball position (red = beam limits)');
 
-subplot(3,1,2);
+nexttile;
 plot(t, xdot, 'LineWidth', 1.2); grid on;
 ylabel('xdot [m/s]'); title('Ball velocity');
 
-subplot(3,1,3);
+nexttile;
 plot(t(1:length(alpha)), alpha, 'LineWidth', 1.2); grid on;
 ylabel('alpha [deg]'); xlabel('Time [s]');
 title('Servo angle (agent action)');
 
+%% --- Optional: compare training curves across experiments ---
+if enableTrainingCurveComparison
+    load("exp_RL/exp01_base.mat", "trainStats");        s1 = trainStats;
+    load("exp_RL/exp02_obvNorm.mat", "trainStats");      s2 = trainStats;
+    load("exp_RL/exp03_obvNorm_aWeight.mat", "trainStats"); s3 = trainStats;
 
-% % % 실험 3개 학습 곡선 비교
-% load("exp_RL/exp01_base.mat", "trainStats");         s1 = trainStats;
-% load("exp_RL/exp02_obvNorm.mat", "trainStats");     s2 = trainStats;
-% load("exp_RL/exp03_obvNorm_aWeight", "trainStats"); s3 = trainStats;
-% 
-% figure; hold on;
-% plot(movmean(s1.EpisodeReward, 20), 'LineWidth', 1.5);
-% plot(movmean(s2.EpisodeReward, 20), 'LineWidth', 1.5);
-% plot(movmean(s3.EpisodeReward, 20), 'LineWidth', 1.5);
-% legend("E1: 정규화 없음", "E2: 관측 정규화", "E3: 정규화+제어벌점↑");
-% xlabel("에피소드"); ylabel("이동평균 보상"); grid on;
+    figure; hold on;
+    plot(movmean(s1.EpisodeReward, 20), 'LineWidth', 1.5);
+    plot(movmean(s2.EpisodeReward, 20), 'LineWidth', 1.5);
+    plot(movmean(s3.EpisodeReward, 20), 'LineWidth', 1.5);
+    legend("E1: no normalization", "E2: observation normalization", ...
+           "E3: normalization + higher control penalty");
+    xlabel("Episode"); ylabel("Moving-average reward"); grid on;
+end
 
-
-% %-----pid 비교-----
-% % RL 평가 후
-% tR = t;  xR = x;  aR = alpha;
-% save("cmp_RL.mat", "tR", "xR", "aR");
-
-% tP = output.xP_raw.Time;
-% xP = output.xP_raw.Data;
-% aP = output.aP_raw.Data;
-% save("cmp_PID.mat", "tP", "xP", "aP");
-
-
-% --- Animation ---
+%% --- Animation ---
 n = min([length(t), length(x), length(alpha)]);
 bnbRL_Animation(t(1:n), x(1:n), alpha(1:n));
-
-
-
-

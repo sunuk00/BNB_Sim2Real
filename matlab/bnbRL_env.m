@@ -1,7 +1,7 @@
 % FILE: bnbRL_env.m
 % AUTH: Taeuk Sun
 % DATE: 09/05/26 13:00
-% DESC: RL Environment
+% DESC: Reinforcement Learning Environment for Ball and Beam
 
 bnbInit;  % Initialize BNB environment (custom init script)
 

@@ -1,5 +1,7 @@
 % FILE: bnbExportWeights.m
-% DESC: Export actor weights to C header for ESP32
+% AUTH: Taeuk Sun
+% DESC: Exporting SAC actor weights to C header file
+% DATE: 09/010/26
 
 load("exp_RL/exp12_curriculum_sigma030.mat", "agent");
 actor  = getActor(agent);
