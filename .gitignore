@@ -1,7 +1,4 @@
-# ==========================================
 # 1. MATLAB / Simulink auto-generated files
-# ==========================================
-# Using ** (wildcard for all directories) ensures these are ignored anywhere in the repo.
 matlab/slprj/
 **/*.slxc
 **/*.asv
@@ -12,27 +9,14 @@ matlab/slprj/
 **/*.mexa64
 **/*.mexmaci64
 
-# ==========================================
 # 2. RL models and training logs
-# ==========================================
-# The exp_RL folder will likely accumulate massive .mat files (tens to hundreds of MBs).
-# Git struggles with large binary files, so ignoring this entire folder is highly recommended.
-# If you need to share 1 or 2 final weight files, move them outside this folder to commit them.
-matlab/exp_RL/
+matlab/exp_RL/*
 
-# If you want to track the exp_RL folder structure but ignore the .mat files inside, use the line below instead:
-# matlab/exp_RL/*.mat
-
-# ==========================================
 # 3. Sim2Real (ESP32 / Arduino build artifacts)
-# ==========================================
-# Temporary files generated during Arduino or PlatformIO builds inside the Sim2Real folder.
-Sim2Real/build/
-Sim2Real/.pio/
-Sim2Real/.vscode/
+# Sim2Real/build/
+# Sim2Real/.pio/
+# Sim2Real/.vscode/
 
-# ==========================================
 # 4. OS-specific system files
-# ==========================================
-.DS_Store
-Thumbs.db
+# .DS_Store
+# Thumbs.db
