@@ -18,7 +18,7 @@ fid = fopen("bnbPolicy.h", "w");
 fprintf(fid, "// FILE: bnbPolicy.h\n");
 fprintf(fid, "// DESC: SAC actor weights exported from MATLAB (E1)\n");
 fprintf(fid, "// NOTE: action = ALPHA_MAX * tanh(mu)\n\n");
-fprintf(fid, "#define N_IN   2\n");
+fprintf(fid, "#define N_IN   2\n"); 
 fprintf(fid, "#define N_H    64\n");
 fprintf(fid, "#define ALPHA_MAX 30.0f\n\n");
 
