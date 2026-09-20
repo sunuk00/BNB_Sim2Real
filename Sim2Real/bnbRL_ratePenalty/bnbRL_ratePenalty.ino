@@ -1,8 +1,8 @@
 // FILE: bnbRL.ino
 // DESC: RL policy control on real BNB hardware
 // VERS: 1.0 policy=exp01 (baseline)                       - works
-//     : 1.1 calibration ADC_HALF 2047.5 -> 1540           - worse, reverted
-//     : 2.0 policy=exp06 (rate penalty w_r=0.2)           - chattering reduced
+//     : 1.1 calibration ADC_HALF 2047.5 -> 1540           - works
+//     : 2.0 policy=exp07 (rate penalty w_r=0.2)           - chattering reduced
 
 #include <ESP32Servo.h>
 #include "src/bnbInfer.h"
