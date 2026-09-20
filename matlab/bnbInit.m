@@ -30,7 +30,7 @@ xdot0 = 0; % [m/s] Ball's initial velocity
 
 %% --- Design parameters ---
 x_max     = 0.144; % [m]   One-sided travel limit from center
-xdot_max  = 0.31;  % [m/s] sqrt(2*K_BB*sin(30deg)*0.228)
+xdot_max  = 0.3497;  % [m/s] sqrt(2*K_BB*sin(30deg)*0.288)
 alpha_max = 30;    % [deg] Action (servo angle) range
 Ts        = 0.02;  % [s]   Agent decision (control) period
 
